@@ -17,7 +17,7 @@ library(MVMR)
 
 
 #Load the single summative MR info table consisting of exposure, outcome and potential mediator (i.e., secondary exposure) traits, including proxies (for missing variants). 
-tb = read.table("/project/voight_T2D_UM1_FGP/diane531/Diet/Dietary_traits/for_MR/final_single_MR_info_table_phase3_8mediators_FIunadj_proxies.txt",sep="\t",header=T)
+tb = read.table("final_single_MR_info_table_phase3_8mediators_FIunadj_proxies.txt",sep="\t",header=T)
 
 #Specify exposures(s) of interest.
 exposure = c("MUESLI")
@@ -38,7 +38,7 @@ outcome = c("T2D")
 	mediator = all = c("BMI","WHR","FI","EA","PHY","SED","DBP","SBP")
 
 #Specify path to output directories: Single-mediator MVMR, Non-BMI, All-inclusive MVMR.
-output_dir = "/project/voight_T2D_UM1_FGP/diane531/Diet/MR/test_MR_manuscript/MVMR/"
+output_dir = "./MVMR/"
 
 ##Create functions necessary to prepare input files and format output files.
 
