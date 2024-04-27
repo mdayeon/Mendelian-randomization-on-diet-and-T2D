@@ -12,13 +12,13 @@ library(TwoSampleMR)
 ##The genetic instruments (IVs) for exposure/dietary traits were selected via PLINK clumping procedure.
 
 #Load the single summative MR info table consisting of exposure, outcome and potential mediator traits. 
-tb = read.table("/project/voight_T2D_UM1_FGP/diane531/Diet/Dietary_traits/for_MR/final_single_MR_info_table_phase3_8mediators_FIunadj_proxies.txt",sep="\t",header=T)
-
 #This table contains no duplicate or palindromic variants for exposure traits.
-#It contains proxies for selected potential mediating traits to match the #SNPs used for MVMR analysis.  
+#It contains proxies for selected potential mediating traits to match the #SNPs used for MVMR analysis.
+tb = read.table("final_single_MR_info_table_phase3_8mediators_FIunadj_proxies.txt",sep="\t",header=T)
 
-#Specify output dir.
-output_dir = "/project/voight_T2D_UM1_FGP/diane531/Diet/MR/test_MR_manuscript/UVMR/"
+
+ #Specify output dir.
+output_dir = "./UVMR/"
 
 #Specify exposure traits. The below is the list of dietary exposure traits.
 exposure = c("ALCMEAL",
@@ -59,7 +59,7 @@ exposure = c("ALCMEAL",
              "STR",
              "VEG")
 
-#SKIMMLK has matching variants with T2D and 20 related traits, except AST, for harmonization. 
+#Note: SKIMMLK has matching variants only with T2D and 20 related traits, except AST, for harmonization. 
 #LOWFAT and HEALTHY have zero IVs.
 #FLORA and LOWFATMLK have less than 5 IVs.
 
@@ -92,51 +92,90 @@ outcome = c("ALP",
 for (e in exposure){
   for(t in outcome){
     #Specify and select exposure and outcome traits of interest.
-    exp_data = tb %>% filter(Type=='Exposure' & Trait==e & Proxy=='FALSE') 
-    out_data = tb %>% filter(Type=='Outcome' & Trait==t & Proxy == 'FALSE') 
-    exp <- format_data(exp_data, type = "exposure", log_pval = FALSE,snps = NULL, header=TRUE, phenotype_col = "Phenotype", chr_col = "CHR",pos_col = "POS", snp_col = "SNP",beta_col = "BETA",se_col = "SE",effect_allele_col = "EA",other_allele_col="NEA",eaf_col="EAF",pval_col="P",samplesize_col = "N")
-    out <- format_data(out_data, type = "outcome", log_pval = FALSE,snps = NULL, header=TRUE, chr_col = "CHR",pos_col = "POS", snp_col = "SNP", beta_col = "BETA", se_col= "SE", effect_allele_col = "EA", other_allele_col= "NEA", eaf_col = "EAF",pval_col = "P", samplesize_col = "N")
+    exp_data = tb %>% filter(Type == 'Exposure' & Trait == e & Proxy== 'FALSE') 
+    out_data = tb %>% filter(Type == 'Outcome' & Trait == t & Proxy == 'FALSE') 
+    exp <- format_data(exp_data, 
+                       type = "exposure",
+                       log_pval = FALSE,
+                       snps = NULL, 
+                       header=TRUE, 
+                       phenotype_col = "Phenotype", 
+                       chr_col = "CHR",
+                       pos_col = "POS", 
+                       snp_col = "SNP",
+                       beta_col = "BETA",
+                       se_col = "SE",
+                       effect_allele_col = "EA",
+                       other_allele_col="NEA",
+                       eaf_col="EAF",
+                       pval_col="P",
+                       samplesize_col = "N")
+    
+    out <- format_data(out_data,
+                       type = "outcome",
+                       log_pval = FALSE,
+                       snps = NULL,
+                       header=TRUE, 
+                       chr_col = "CHR",
+                       pos_col = "POS", 
+                       snp_col = "SNP", 
+                       beta_col = "BETA", 
+                       se_col= "SE", 
+                       effect_allele_col = "EA", 
+                       other_allele_col= "NEA", 
+                       eaf_col = "EAF",
+                       pval_col = "P", 
+                       samplesize_col = "N")
+    
     #Generate harmonized data for exposure-outcome trait pair.
     #action = 2: Try to infer positive strand alleles, using allele frequencies for palindromes (default, conservative)
     dat = harmonise_data(exposure_dat = exp, outcome_dat = out, action = 2)
+    
     #MR Steiger test for directionality
     st = directionality_test(dat)
     st$exposure = e
     st$outcome = t
     write.table(st, file=paste0(output_dir,"Univariable_MR_",e,"_",t,"_steiger_test.txt"), sep="\t", row.names=FALSE, quote=FALSE)
+    
     #Save the list of SNPs used for the analysis.  
     dat2 = dat %>% mutate(Exposure = e, Outcome = t) 
     write.table(dat2,file = paste0(output_dir,"Univariable_MR_",e,"_",t,"_SNP_data_table.txt"), sep="\t", row.names=FALSE, quote=FALSE)
+   
     #Run MR analysis using IVW, WM and Egger regression as methods.
     res <- mr(dat, method_list=c("mr_egger_regression", "mr_ivw", "mr_weighted_median"))
     res2 = res %>% select(-exposure,-outcome)
     res2$exposure = e
     res2$outcome = t
     write.table(res2, file = paste0(output_dir,"Univariable_MR_",e,"_",t,"_results.txt"), sep="\t", row.names=FALSE, quote=FALSE)
+    
     #Heterogeneity test.
     het = mr_heterogeneity(dat)
     het2 = het %>% select(-exposure,-outcome)
     het2$exposure = e
     het2$outcome = t
     write.table(het2, file=paste0(output_dir,"Univariable_MR_",e,"_",t,"_heterogeneity.txt"), sep="\t", quote=F, row.names=F)
+   
     #Pleiotropy test.
     plt = mr_pleiotropy_test(dat)
     plt2 = plt %>% select(-exposure,-outcome)
     plt2$exposure = e
     plt2$outcome = t
     write.table(plt2, file=paste0(output_dir,"Univariable_MR_",e,"_",t,"_pleiotropy.txt"),sep="\t", quote=F, row.names=F)
+   
     #MR analysis on each SNP individually.
     sin = mr_singlesnp(dat)
     sin2 = sin %>% select(-exposure,-outcome)
     sin2$exposure = e
     sin2$outcome = t
     write.table(sin2, file=paste0(output_dir,"Univariable_MR_",e,"_",t,"_singleSNP_analysis.txt"),sep="\t", quote=F, row.names=F)
+    
     #Add odds ratios (OR) to MR results. 
     or = generate_odds_ratios(res)
     or2 = or %>% select(-exposure,-outcome)
     or2$exposure = e
     or2$outcome = t
     write.table(or2, file=paste0(output_dir,"Univariable_MR_",e,"_",t,"_OR_with_CI95.txt"),sep="\t", quote=F, row.names=F)
+    
     #Leave one out sensitivity analysis using IVW and WV methods to determine whether single, particular SNP drives the causal effect.
     leave_ivw = mr_leaveoneout(dat, parameters = default_parameters(), method = mr_ivw)
     leave_ivw2 = leave_ivw %>% select(-exposure,-outcome)
@@ -148,6 +187,7 @@ for (e in exposure){
     leave_wm2$exposure = e
     leave_wm2$outcome = t
     write.table(leave_wm2, file=paste0(output_dir,"Univariable_MR_",e,"_",t,"_leaveoneout_wm.txt"),sep="\t", quote=F, row.names=F)
+    
     #Save scatter and forest plots of MR results.
     p1 <- mr_scatter_plot(res2, dat)
     length(p1)
@@ -187,10 +227,41 @@ outcome = c("ALP",
 #The same code is used to run MR analysis on SKIMMLK.
 for (e in exposure){
   for(t in outcome){ 
-    exp_data = tb %>% filter(Type=='Exposure' & Trait==e) 
-    out_data = tb %>% filter(Type=='Outcome' & Trait==t) 
-    exp <- format_data(exp_data, type = "exposure", log_pval = FALSE,snps = NULL, header=TRUE, phenotype_col = "Phenotype", chr_col = "CHR",pos_col = "POS", snp_col = "SNP",beta_col = "BETA",se_col = "SE",effect_allele_col = "EA",other_allele_col="NEA",eaf_col="EAF",pval_col="P",samplesize_col = "N")
-    out <- format_data(out_data, type = "outcome", log_pval = FALSE,snps = NULL, header=TRUE, chr_col = "CHR",pos_col = "POS", snp_col = "SNP", beta_col = "BETA", se_col= "SE", effect_allele_col = "EA", other_allele_col= "NEA", eaf_col = "EAF",pval_col = "P", samplesize_col = "N")
+    exp_data = tb %>% filter(Type=='Exposure' & Trait == e) 
+    out_data = tb %>% filter(Type=='Outcome' & Trait == t) 
+    exp <- format_data(exp_data,
+                       type = "exposure",
+                       log_pval = FALSE,
+                       snps = NULL, 
+                       header=TRUE, 
+                       phenotype_col = "Phenotype", 
+                       chr_col = "CHR",
+                       pos_col = "POS", 
+                       snp_col = "SNP",
+                       beta_col = "BETA",
+                       se_col = "SE",
+                       effect_allele_col = "EA",
+                       other_allele_col="NEA",
+                       eaf_col="EAF",
+                       pval_col="P",
+                       samplesize_col = "N")
+    
+    out <- format_data(out_data, 
+                       type = "outcome", 
+                       log_pval = FALSE,
+                       snps = NULL, 
+                       header=TRUE, 
+                       chr_col = "CHR",
+                       pos_col = "POS", 
+                       snp_col = "SNP", 
+                       beta_col = "BETA", 
+                       se_col= "SE", 
+                       effect_allele_col = "EA", 
+                       other_allele_col= "NEA", 
+                       eaf_col = "EAF",
+                       pval_col = "P", 
+                       samplesize_col = "N")
+    
     #Generate harmonized data for exposure-outcome trait pairs
     #action = 2: Try to infer positive strand alleles, using allele frequencies for palindromes (default, conservative)
     dat = harmonise_data(exposure_dat = exp, outcome_dat = out, action = 2)
@@ -261,7 +332,10 @@ system(paste0("awk 'NR == 1 || FNR > 1'  Univariable_MR_*_*_singleSNP_analysis.t
 #Filter out exposure-outcome pairs based on 2 critera: (1) Pass the given Bonferroni-adjusted pval (5.99e-5) in at least 2 sensitivity analyses AND (2) more than 5 genetic instruments are used for MR.
 d = read.table(file=paste0(output_dir,"Univariable_MR_dietary_traits_OR_with_CI95.txt"),sep='\t',header=T)
 
-d2 = d %>% select(-id.exposure,-id.outcome) %>% relocate(exposure,.before=method) %>% relocate(outcome,.after=exposure) %>% filter(pval <= 5.99e-5, nsnp >= 5) 
+d2 = d %>% select(-id.exposure,-id.outcome) %>%
+relocate(exposure,.before=method) %>%
+relocate(outcome,.after=exposure) %>%
+filter(pval <= 5.99e-5, nsnp >= 5) 
 sig = d2 %>% group_by(exposure,outcome) %>% filter(n()>= 2)
 
 #Save significant associations from MR based on the 2 criteria above.
