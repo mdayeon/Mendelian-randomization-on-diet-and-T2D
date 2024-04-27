@@ -16,7 +16,7 @@ library(MVMR)
 
 
 #Load the single summative MR info table consisting of exposure, outcome and confounder traits (both strong and weak instruments)
-tb = read.table("/project/voight_T2D_UM1_FGP/diane531/Diet/Dietary_traits/for_MR/weak_instruments_mr_raps/final_single_MR_info_table_both_weak_strong_instruments_for_mr_raps_mediators_wo_pal.txt",sep="\t",header=T)
+tb = read.table("weak_instruments_mr_raps/final_single_MR_info_table_both_weak_strong_instruments_for_mr_raps_mediators_wo_pal.txt",sep="\t",header=T)
 
 #Specify exposure trait
 #The exposure traits of interest are: ALC, CHEESE, COF, COOKEDVEG, DRIEDFRU, MUESLI, PAL, RAWVEG, SAVCAL, SPREADS, STR, WHITEBRD.
@@ -31,7 +31,7 @@ outcome = c("Liverfat")
 mediator = c("BMI","WHR","FI","EA","PHY","SED","DBP","SBP")
 
 #Specify output directory
-output_dir = "/project/voight_T2D_UM1_FGP/diane531/Diet/MR/test_MR_manuscript/MR_RAPS/"
+output_dir = "./MR_RAPS/"
 
 ##Create functions necessary to prepare input files and format output files.
 
