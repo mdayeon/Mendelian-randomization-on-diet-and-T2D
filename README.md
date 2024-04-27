@@ -11,12 +11,10 @@ The MR approach consists of univariable and multivariable including two-step med
   
 To conduct these analyses the following codes/scripts were used.
 
-  1. process_gwas_summary_stats.py (python script for rsID standardization using dbSNP build 155 to GRCh37, written by Mitch - cite)
+  1. UVMR_diet_T2D_TwoSampleMR.R
 
-  2. UVMR_diet_T2D_TwoSampleMR.R
+  2. MVMR_diet_T2D_using_both_2samplemr_mvmr_with_proxy.R
 
-  3. MVMR_diet_T2D_using_both_2samplemr_mvmr_with_proxy.R
+  3. UVMR_MR-RAPS_diet_T2D_TwoSampleMR.R
 
-  4. UVMR_MR-RAPS_diet_T2D_TwoSampleMR.R
-
-  5. MVMR_MR-RAPS_diet_T2D_using_both_2samplemr_mvmr.R
+  4. MVMR_MR-RAPS_diet_T2D_using_both_2samplemr_mvmr.R
