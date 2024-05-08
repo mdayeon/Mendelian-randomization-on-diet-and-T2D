@@ -160,7 +160,7 @@ for (e in exposure){
                                       outcome.se = mvdat$outcome_se),
                      file = paste0(output_dir,filename,"_SNP_data_table.txt")) 
       #Perform multivariable MR analysis.
-      res <- mv_multiple(mvdat)
+      res <- mv_multiple(mvdat, pval_threshold = 1)
       
       #Create a tidy outcome.
       result_2smr <- res$result %>%
