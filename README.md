@@ -9,7 +9,7 @@ The MR approach consists of univariable and multivariable including two-step med
   For multivariable MR, MVMR along with TwoSampleMR packages was used.
   For two-step MR mediation, RMediation R package was used to estimate indirect (mediated) effect and calculate confidence intervals.
   
-To conduct these analyses the following codes/scripts were used.
+To conduct these analyses the following codes/scripts and tables of genetic instruments were used.
 
   1. UVMR_diet_T2D_TwoSampleMR.R
 
@@ -18,3 +18,7 @@ To conduct these analyses the following codes/scripts were used.
   3. UVMR_MR-RAPS_diet_T2D_TwoSampleMR.R
 
   4. MVMR_MR-RAPS_diet_T2D_using_both_2samplemr_mvmr.R
+     
+  5. Table of genetic instruments for MR-RAPS analysis
+     
+  6. Table of genetic instruments for UVMR and MVMR analyses
