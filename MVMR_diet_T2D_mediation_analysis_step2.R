@@ -19,7 +19,7 @@ library(MVMR)
 
 
 #Load the single summative MR info table consisting of exposure, outcome and potential mediator (i.e., secondary exposure) traits. 
-tb = read.table("/project/voight_T2D_UM1_FGP/diane531/Diet/MR/MR_mediation/clumping_mediators/single_mediator_centric_MR_info_table_nygc.txt",sep="\t",header=T)
+tb = read.table("supp table 9 Table of genetic instruments for exposures, outcomes and potential mediators selected for UVMR and MVMR.txt",sep="\t",header=T)
 
 #Specify primary exposure (here, mediator) of interest.
 exposure = c("BMI","DBP","EA")
