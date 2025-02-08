@@ -12,7 +12,7 @@ The MR approach consists of univariable and multivariable including two-step med
 To conduct these analyses the following codes/scripts and tables of genetic instruments were used.
 
   1. UVMR_diet_T2D_TwoSampleMR.R
-
   2. MVMR_diet_T2D_using_both_2samplemr_mvmr_with_proxy.R
-     
-  3. Supplementary Table 9 for the table of genetic instruments for UVMR and MVMR analyses
+  3. UVMR_diet_T2D_mediation_analysis_step1.R
+  4. MVMR_diet_T2D_mediation_analysis_step2.R
+  5. Supplementary Table 9 for the table of genetic instruments for UVMR and MVMR analyses
