@@ -16,8 +16,8 @@ library(TwoSampleMR)
 library(MVMR)
 
 
-#Load the single summative MR info table consisting of exposure, outcome and potential mediator (i.e., secondary exposure) traits, including proxies (for missing variants). 
-tb = read.table("final_single_MR_info_table_phase3_8mediators_FIunadj_proxies.txt",sep="\t",header=T)
+#Load the single summative MR info table (supp table 9)consisting of exposure, outcome and potential mediator (i.e., secondary exposure) traits, including proxies (for missing variants). 
+tb = read.table("supp table 9 Table of genetic instruments for exposures, outcomes and potential mediators selected for UVMR and MVMR",sep="\t",header=T)
 
 #Specify exposures(s) of interest.
 exposure = c("MUESLI")
