@@ -31,11 +31,11 @@ outcome = c("T2D")
 #Specify potential mediator(s) of interest --> single mediator, non-BMI or all-inclusive.
 
 #For single-mediator MR, specify 1 mediator trait at a time. 
-	#mediator = c("BMI", "DBP")
+	mediator = c("BMI")
 
 #For multiple-mediator MR: non-BMI or all-inclusive
 	#mediator = non_BMI = c("WHR","FI","EA","PHY","SED","DBP","SBP")
-	mediator = all = c("BMI","WHR","FI","EA","PHY","SED","DBP","SBP")
+	#mediator = all = c("BMI","WHR","FI","EA","PHY","SED","DBP","SBP")
 
 #Specify path to output directories: Single-mediator MVMR, Non-BMI, All-inclusive MVMR.
 output_dir = "./MVMR/"
