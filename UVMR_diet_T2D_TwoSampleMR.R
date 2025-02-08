@@ -14,50 +14,16 @@ library(TwoSampleMR)
 #Load the single summative MR info table consisting of exposure, outcome and potential mediator traits. 
 #This table contains no duplicate or palindromic variants for exposure traits.
 #It contains proxies for selected potential mediating traits to match the #SNPs used for MVMR analysis.
-tb = read.table("final_single_MR_info_table_phase3_8mediators_FIunadj_proxies.txt",sep="\t",header=T)
+tb = read.table("supp table 9 Table of genetic instruments for exposures, outcomes and potential mediators selected for UVMR and MVMR",sep="\t",header=T)
 
 
  #Specify output dir.
 output_dir = "./UVMR/"
 
 #Specify exposure traits. The below is the list of dietary exposure traits.
-exposure = c("ALCMEAL",
-             "ALC",
-             "BEEF",
-             "BUTTER",
-             "BUTMARG",
-             "CARB",
-             "CHAMPWH",
-             "CHEESE",
-             "COF",
-             "COOKEDVEG",
-             "CORNFLAK",
+exposure = c("CHEESE",
              "DRIEDFRU",
-             "FAT",
-             "FRESHFRU",
-             "MUESLI",
-             "NONOILYFSH",
-             "PORK",
-             "POULTRY",
-             "PROTEIN",
-             "RAWVEG",
-             "REDWINE",
-             "SPREADS",
-             "SUGAR",
-             "WHITEBRD",
-             "WHOLEBRD",
-             "WHOLEMLK",
-             "ACQ",
-             "CAFSWT",
-             "COFALC",
-             "DESS",
-             "FATSALT",
-             "LOWCAL",
-             "PAL",
-             "SAVCAL",
-             "SAVOUR",
-             "STR",
-             "VEG")
+             "MUESLI")
 
 #Note: SKIMMLK has matching variants only with T2D and 20 related traits, except AST, for harmonization. 
 #LOWFAT and HEALTHY have zero IVs.
@@ -65,28 +31,7 @@ exposure = c("ALCMEAL",
 
 
 #Specify outcome traits. Below contains T2D and 21 related cardiometabolic traits.
-outcome = c("ALP",
-            "ALT",
-            "AST",
-            "ASAT",
-            "BMI",
-            "FG",
-            "FI",
-            "GGT",
-            "HbA1c",
-            "HDL",
-            "LDL",
-            "Liverfat",
-            "Liveriron",
-            "Livervol",
-            "Pancfat",
-            "Panciron",
-            "Pancvol",
-            "TG",
-            "T2D",
-            "VAT",
-            "WHR",
-            "WHRadjBMI")
+outcome = c("T2D")
 
 #Run this loop for UVMR analysis.
 for (e in exposure){
