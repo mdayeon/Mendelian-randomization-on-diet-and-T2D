@@ -12,7 +12,7 @@ library(TwoSampleMR)
 ##The genetic instruments (IVs) for exposure/dietary traits were selected via PLINK clumping procedure.
 
 #Load the single summative MR info table consisting of exposure, outcome and potential mediator traits. 
-tb = read.table("/project/voight_T2D_UM1_FGP/diane531/Diet/Dietary_traits/for_MR/final_single_MR_info_table_phase3_8mediators_FIunadj_proxies.txt",sep="\t",header=T)
+tb = read.table("supp table 9 Table of genetic instruments for exposures, outcomes and potential mediators selected for UVMR and MVMR.txt",sep="\t",header=T)
 
 #This table contains no duplicate or palindromic variants for exposure traits.
 #It contains proxies for selected potential mediating traits to match the #SNPs used for MVMR analysis.  
